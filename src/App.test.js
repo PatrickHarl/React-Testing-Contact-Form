@@ -38,18 +38,39 @@ test("can fill out form inputs correctly, submit, and verify submitted info", as
 
 })
 
-test("validation is working", () => {
+test("validation is working", async () => {
 
 
-  const { getByDisplayValue, getByPlaceholderText, getByLabelText } = render(<App />)
+  const { findByTestId, getByPlaceholderText, getByLabelText } = render(<App />)
 
   const firstName = getByPlaceholderText(/edd/i)
   const lastName = getByPlaceholderText(/burke/i)
   const emailAddress = getByLabelText(/email*/i)
 
-  act(() => firstName.focus())
+  act(() => {
+    
+    
+    firstName.focus()
+    firstName.blur()
 
-  expect(firstName).not.toHaveFocus()
+    lastName.focus()
+    lastName.blur()
+
+    emailAddress.focus()
+    emailAddress.blur()
+    
+  
+  
+  })
+
+  const firstNameError = await findByTestId('firstname-err')
+  const lastNameError = await findByTestId('lastname-err')
+  const emailError = await findByTestId('email-err')
+
+  expect(firstNameError).toHaveTextContent(/required/i)
+  expect(lastNameError).toHaveTextContent(/required/i)
+  expect(emailError).toHaveTextContent(/required/i)
+  
 
   
 })
