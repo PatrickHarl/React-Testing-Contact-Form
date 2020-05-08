@@ -8,6 +8,18 @@ test("renders App without crashing", () => {
   render(<App />);
 });
 
+test("renders first name label", () => {
+
+
+  const { getByText } = render(<App />)
+
+  const firstNameLabel = getByText(/first name*/i)
+
+  expect(firstNameLabel).toBeInTheDocument()
+
+
+})
+
 test("can fill out form inputs correctly, submit, and verify submitted info", async () => {
 
   const { getByLabelText, getByPlaceholderText, getByTestId, findByDisplayValue } = render(<App />)
@@ -73,6 +85,42 @@ test("validation is working", async () => {
   
 
   
+})
+
+test("validation is working when user clicks submit without any input in text boxes", async () => {
+
+
+  const { getByTestId, findByTestId } = render(<App />)
+
+  const button = getByTestId('submit-btn')
+
+  fireEvent.click(button)
+
+  const firstNameError = await findByTestId('firstname-err')
+  const lastNameError = await findByTestId('lastname-err')
+  const emailError = await findByTestId('email-err')
+
+  expect(firstNameError).toHaveTextContent(/required/i)
+  expect(lastNameError).toHaveTextContent(/required/i)
+  expect(emailError).toHaveTextContent(/required/i)
+
+
+
+})
+
+test("signup checkbox working", () => {
+
+
+  const { getByLabelText } = render(<App />)
+
+  const checkbox = getByLabelText(/signup?/i)
+
+  fireEvent.click(checkbox)
+
+  expect(checkbox).toBeChecked()
+
+
+
 })
 
 

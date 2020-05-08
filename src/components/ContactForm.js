@@ -50,6 +50,10 @@ const ContactForm = () => {
           <label htmlFor="message">Message</label>
           <textarea id="message" name="message" ref={register({ required: false })} />
         </div>
+        <div>
+          <label htmlFor="signup">Signup?</label>
+          <input type="checkbox" id="signup" name="signup" value="signup" />
+        </div>
         {data && (
           <pre style={{ textAlign: "left", color: "white" }}>
             {JSON.stringify(data, null, 2)}
